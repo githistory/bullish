@@ -1,6 +1,9 @@
 # Bullish Bank
 
+
 ## Setup Steps
+
+This assumes that you already have the latest versions of nodejs and its toolings installed.
 
 ### 1. Once cloned, install dependencies
 
