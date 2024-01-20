@@ -3,8 +3,8 @@
 import { ApolloLink, HttpLink } from "@apollo/client";
 import {
   ApolloNextAppProvider,
-  NextSSRInMemoryCache,
   NextSSRApolloClient,
+  NextSSRInMemoryCache,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
 
@@ -16,8 +16,8 @@ function makeClient() {
     // you can disable result caching here if you want to
     // (this does not work if you are rendering your page with `export const dynamic = "force-static"`)
     fetchOptions: {
-      cache: "reload",
-      duplex: 'half'
+      cache: "no-store",
+      duplex: 'full'
     },
     // you can override the default `fetchOptions` on a per query basis
     // via the `context` property on the options passed as a second argument

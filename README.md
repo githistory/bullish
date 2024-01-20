@@ -1,11 +1,10 @@
 # Bullish Bank
 
-
 ## Setup Steps
 
-This assumes that you already have the latest versions of nodejs and its toolings installed.
+Before you begin, make sure you have nodejs version 18.0.0 installed and activated.
 
-### 1. Once cloned, install dependencies
+### 1. Clone repo and install dependencies
 
 ```
 yarn install
@@ -28,3 +27,11 @@ yarn prisma:migrate
 ```
 yarn dev
 ```
+
+
+## Potential Improvements
+
+- The `From` and `To` fields of the Transfer form can be made comboboxes instead with account names being the label for easier picking.
+- There should be client-side restriction so that user input is limited to only valid data.
+- There should be server-side validation, such as amount / currency checking, source / destination existence checking etc., to prevent user entering arbitrary data on the client side.
+- User login / Transfer only from logged in user, etc.

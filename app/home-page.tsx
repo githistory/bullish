@@ -25,7 +25,7 @@ const query = gql`query DataQuery {
 }`;
 
 export function HomePage() {
-    const { data, refetch } = useSuspenseQuery(query);
+    const { data, refetch } = useSuspenseQuery(query, { context: { fetchOptions: { duplex: 'half' }}});
 
     const transactions = flatMap(data.accounts, (x) => x.transactions);
 
