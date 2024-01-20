@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator pothos {
+  provider = "prisma-pothos-types"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Account {
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  name         String
+  transactions Transaction[]
+}
+
+model Transaction {
+  id          Int      @id @default(autoincrement())
+  from        Int
+  to          Int
+  amount      Decimal
+  currency    String
+  initiator   Account  @relation(fields: [from], references: [id])
+  description String?
+  createdAt   DateTime @default(now())
+}
