@@ -49,6 +49,7 @@ builder.prismaObject("Transaction", {
     to: t.exposeInt('to'),
     amount: t.exposeFloat('amount'),
     currency: t.exposeString('currency'),
+    date: t.exposeString('date'),
     description: t.exposeString('description', { nullable: true }),
     createdAt: t.expose('createdAt', {
       type: 'Date'
@@ -81,6 +82,7 @@ builder.mutationField('createTransaction', (t) =>
       to: t.arg.int({ required: true }),
       amount: t.arg.float({ required: true }),
       currency: t.arg.string({ required: true }),
+      date: t.arg.string({ required: true }),
       description: t.arg.string(),
     },
     resolve: async (query, _parent, args, _info) =>
@@ -91,6 +93,7 @@ builder.mutationField('createTransaction', (t) =>
           to: args.to,
           amount: args.amount,
           currency: args.currency,
+          date: args.date,
           description: args.description
         }
       })

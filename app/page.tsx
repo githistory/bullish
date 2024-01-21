@@ -1,8 +1,5 @@
 import { Metadata } from 'next';
-import { gql } from '@apollo/client';
-import client from '../lib/apollo-client';
-import { HomePage } from './home-page'
-import { flatMap } from 'lodash';
+import { HomePage } from './home-page';
 
 export const metadata: Metadata = {
     title: 'Bullish',

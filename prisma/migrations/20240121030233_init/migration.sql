@@ -12,6 +12,7 @@ CREATE TABLE "Transaction" (
     "to" INTEGER NOT NULL,
     "amount" DECIMAL NOT NULL,
     "currency" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
     "description" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "Transaction_from_fkey" FOREIGN KEY ("from") REFERENCES "Account" ("id") ON DELETE RESTRICT ON UPDATE CASCADE

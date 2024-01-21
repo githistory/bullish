@@ -1,31 +1,15 @@
 'use client'
 
-import { gql, useQuery, useSuspenseQuery } from "@apollo/client";
+import { gql, useSuspenseQuery } from "@apollo/client";
+import { flatMap } from "lodash";
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect } from "react";
 import { Accounts } from '../components/Accounts';
 import { Transactions } from "../components/Transactions";
-import { flatMap } from "lodash";
-
-const query = gql`query DataQuery {
-    accounts {
-        id
-        email
-        name
-        transactions {
-            id
-            from
-            to
-            amount
-            currency
-            description
-            createdAt
-        }
-    }
-}`;
+import { AccountsQuery } from "../gql/AccountsQuery";
 
 export function HomePage() {
-    const { data, refetch } = useSuspenseQuery(query, { context: { fetchOptions: { duplex: 'half' }}});
+    const { data, refetch } = useSuspenseQuery(AccountsQuery, { context: { fetchOptions: { duplex: 'half' }}});
 
     const transactions = flatMap(data.accounts, (x) => x.transactions);
 

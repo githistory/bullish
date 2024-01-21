@@ -16,6 +16,7 @@ export const Transactions = ({ transactions }: TransactionsProps) => {
         <div className="basis-full">To</div>
         <div className="basis-full">Amount</div>
         <div className="basis-full">Currency</div>
+        <div className="basis-full">Date</div>
         <div className="basis-full">Description</div>
         <div className="basis-full">Created At</div>
       </div>
@@ -25,6 +26,7 @@ export const Transactions = ({ transactions }: TransactionsProps) => {
           <div className="basis-full">{x.to}</div>
           <div className="basis-full">{x.amount}</div>
           <div className="basis-full">{x.currency}</div>
+          <div className="basis-full">{x.date}</div>
           <div className="basis-full">{x.description}</div>
           <div className="basis-full">{x.createdAt}</div>
         </div>

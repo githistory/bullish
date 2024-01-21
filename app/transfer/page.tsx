@@ -1,77 +1,82 @@
 'use client';
 
-import React, { useState } from "react"
-import { useRouter } from "next/navigation"
-import gql from "graphql-tag"
-import { useMutation } from "@apollo/client"
+import { useMutation, useSuspenseQuery } from "@apollo/client";
+import { filter } from "lodash";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+import { AccountsQuery } from "../../gql/AccountsQuery";
+import { CreateTransactionMutation } from "../../gql/CreateTransactionMutation";
+import { Account } from "../../types/Account";
 
-const CreateTransactionMutation = gql`
-  mutation CreateTransactionMutation(
-    $from: Int!
-    $to: Int!
-    $amount: Float!
-    $currency: String!
-    $description: String
-  ) {
-    createTransaction(from: $from, to: $to, amount: $amount, currency: $currency, description: $description) {
-      id
-      from
-      to
-      amount
-      currency
-      description
-    }
-  }
-`
 export default function Page() {
-    const [from, setFrom] = useState<number>()
-    const [to, setTo] = useState<number>()
+    const [from, setFrom] = useState('')
+    const [to, setTo] = useState('')
     const [amount, setAmount] = useState<number>()
-    const [currency, setCurrency] = useState("")
-    const [description, setDescription] = useState("")
+    const [currency, setCurrency] = useState('')
+    const [date, setDate] = useState('')
+    const [description, setDescription] = useState('')
 
     const router = useRouter()
+    const { data: { accounts } } = useSuspenseQuery(AccountsQuery, { context: { fetchOptions: { duplex: 'half' }}});
     const [createTransaction] = useMutation(CreateTransactionMutation)
+
+    const getOtherAccounts = (accounts: Account[], excludedId: string) =>
+        filter(accounts, (account) => 
+            account.id !== excludedId
+        )
+    const fromAccounts = useMemo(() => getOtherAccounts(accounts, to), [to])
+    const toAccounts = useMemo(() => getOtherAccounts(accounts, from), [from])
+
+    const now = new Date().toISOString().slice(0, -14);
 
     return (
         <form
-            className="p-2"
+            className="flex flex-col items-start p-2 space-y-2"
             onSubmit={async (e) => {
                 e.preventDefault()
 
                 await createTransaction({
                     variables: {
-                        from, to, amount, currency, description
+                        from: parseInt(from),
+                        to: parseInt(to),
+                        amount, currency,
+                        date, description
                     },
                 })
                 router.push("/")
             }}
         >
-            <h1>Transfer</h1>
-            <input
-                autoFocus
-                onChange={(e) => setFrom(parseInt(e.target.value))}
-                placeholder="From"
-                type="number"
-                value={from}
-            />
-            <input
-                onChange={(e) => setTo(parseInt(e.target.value))}
-                placeholder="To"
-                type="number"
-                value={to}
-            />
+            <h1 className="text-lg">Transfer</h1>
+            <select onChange={(e) => setFrom(e.target.value)}>
+                <option value=''>Pick From</option>
+                {fromAccounts.map(({id, name}) => 
+                    <option key={id} value={id}>{name}</option>
+                )}
+            </select>
+            <select onChange={(e) => setTo(e.target.value)}>
+                <option value=''>Pick To</option>
+                {toAccounts.map(({id, name}) => 
+                    <option key={id} value={id}>{name}</option>
+                )}
+            </select>
             <input
                 onChange={(e) => setAmount(parseFloat(e.target.value))}
                 placeholder="Amount"
                 type="number"
                 value={amount}
             />
+            <select onChange={(e) => setCurrency(e.target.value)}>
+                <option value=''>Pick Currency</option>
+                <option value='HKD'>HKD</option>
+                <option value='USD'>USD</option>
+                <option value='CNY'>CNY</option>
+            </select>
             <input
-                onChange={(e) => setCurrency(e.target.value)}
-                placeholder="Currency"
-                type="text"
-                value={currency}
+                onChange={(e) => setDate(e.target.value)}
+                placeholder="Date"
+                type="date"
+                value={date}
+                min={now}
             />
             <input
                 onChange={(e) => setDescription(e.target.value)}
@@ -81,12 +86,12 @@ export default function Page() {
             />
             <input
                 className="btn btn-blue"
-                disabled={!from || !to || !amount || !currency}
+                disabled={!from || !to || !amount || !currency || !date}
                 type="submit"
                 value="Transfer"
             />
             <button
-                className="btn btn-blue ml-2"
+                className="btn btn-blue"
                 onClick={() => router.push("/")}>
                 Cancel
             </button>

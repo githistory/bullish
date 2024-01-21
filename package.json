@@ -9,8 +9,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev --name init",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --name init",
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {

@@ -24,6 +24,7 @@ model Transaction {
   to          Int
   amount      Decimal
   currency    String
+  date        String
   initiator   Account  @relation(fields: [from], references: [id])
   description String?
   createdAt   DateTime @default(now())

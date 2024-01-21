@@ -22,6 +22,7 @@ const transactionData: Prisma.TransactionCreateInput[] = [
     to: 2,
     amount: 11.2,
     currency: 'HKD',
+    date: '2024-02-02',
     description: 'a transfer',
     initiator: {
       connect: { id: 1 }
@@ -31,6 +32,7 @@ const transactionData: Prisma.TransactionCreateInput[] = [
     to: 3,
     amount: 2.21,
     currency: 'USD',
+    date: '2024-02-05',
     description: 'another transfer',
     initiator: {
       connect: { id: 2 }
@@ -40,6 +42,7 @@ const transactionData: Prisma.TransactionCreateInput[] = [
     to: 1,
     amount: 1.2,
     currency: 'CNY',
+    date: '2024-02-08',
     description: 'yet another transfer',
     initiator: {
       connect: { id: 3 }

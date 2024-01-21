@@ -10,16 +10,16 @@ Before you begin, make sure you have nodejs version 18.0.0 installed and activat
 yarn install
 ```
 
-### 2. Generate dynamic libs
+### 2. Generate dynamic libs for data model
 
 ```
-yarn prisma:generate
+yarn db:generate
 ```
 
-### 3. Create DB and seed it by running
+### 3. Create DB and seed it
 
 ```
-yarn prisma:migrate
+yarn db:migrate
 ```
 
 ### 4. Run the app
@@ -31,7 +31,10 @@ yarn dev
 
 ## Potential Improvements
 
-- The `From` and `To` fields of the Transfer form can be made comboboxes instead with account names being the label for easier picking.
-- There should be client-side restriction so that user input is limited to only valid data.
+- The `From` and `To` fields of the Transfer form can be made comboboxes for easier account picking.
+- `classnames` lib can be used to improve UX.
+- GraphQL queries can be optimized so that only necessary data is sent down the wire.
+- There should be client-side restrictions so that user input is limited to only valid data.
 - There should be server-side validation, such as amount / currency checking, source / destination existence checking etc., to prevent user entering arbitrary data on the client side.
+- This system only "books" the transactions. There should be a post-trade system that processes the trades and executes the transactions (adding / deducting balances) according to their preset dates, run as a batch operation.
 - User login / Transfer only from logged in user, etc.
